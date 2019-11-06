@@ -135,6 +135,8 @@ class PosixSequentialFile final : public SequentialFile {
     return Status::OK();
   }
 
+  virtual std::string GetName() const override { return filename_; }
+
  private:
   const int fd_;
   const std::string filename_;
@@ -195,6 +197,8 @@ class PosixRandomAccessFile final : public RandomAccessFile {
     return status;
   }
 
+  virtual std::string GetName() const override { return filename_; }
+
  private:
   const bool has_permanent_fd_;  // If false, the file is opened on every read.
   const int fd_;                 // -1 if has_permanent_fd_ is false.
@@ -238,6 +242,8 @@ class PosixMmapReadableFile final : public RandomAccessFile {
     *result = Slice(mmap_base_ + offset, n);
     return Status::OK();
   }
+
+  virtual std::string GetName() const override { return filename_; }
 
  private:
   char* const mmap_base_;
@@ -425,6 +431,8 @@ class PosixWritableFile final : public WritableFile {
   static bool IsManifest(const std::string& filename) {
     return Basename(filename).starts_with("MANIFEST");
   }
+
+  virtual std::string GetName() const override { return filename_; }
 
   // buf_[0, pos_ - 1] contains data to be written to fd_.
   char buf_[kWritableFileBufferSize];
