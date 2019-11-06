@@ -17,10 +17,9 @@ class StdoutPrinter : public WritableFile {
     fwrite(data.data(), 1, data.size(), stdout);
     return Status::OK();
   }
-  Status Close() { return Status::OK(); }
-  Status Flush() { return Status::OK(); }
-  Status Sync() { return Status::OK(); }
-  std::string GetName() const { return "[stdout]"; }
+  Status Close() override { return Status::OK(); }
+  Status Flush() override { return Status::OK(); }
+  Status Sync() override { return Status::OK(); }
 };
 
 bool HandleDumpCommand(Env* env, char** files, int num) {
