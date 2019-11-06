@@ -265,10 +265,6 @@ constexpr inline const uint8_t* RoundUp(const uint8_t* pointer) {
 // Determine if the CPU running this program can accelerate the CRC32C
 // calculation.
 static bool CanAccelerateCRC32C() {
-  if (!port::HasAcceleratedCRC32C())
-    return false;
-
-  // Double-check that the accelerated implementation functions correctly.
   // port::AcceleretedCRC32C returns zero when unable to accelerate.
   static const char kTestCRCBuffer[] = "TestCRCBuffer";
   static const char kBufSize = sizeof(kTestCRCBuffer) - 1;

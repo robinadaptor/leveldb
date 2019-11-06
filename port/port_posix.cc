@@ -8,10 +8,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#if (defined(__x86_64__) || defined(__i386__)) && defined(__GNUC__)
-#include <cpuid.h>
-#endif
-
 namespace leveldb {
 namespace port {
 
@@ -53,6 +49,7 @@ void InitOnce(OnceType* once, void (*initializer)()) {
   PthreadCall("once", pthread_once(once, initializer));
 }
 
+<<<<<<< HEAD
 bool HasAcceleratedCRC32C() {
 #if (defined(__x86_64__) || defined(__i386__)) && defined(__GNUC__)
   unsigned int eax, ebx, ecx, edx;
@@ -63,5 +60,18 @@ bool HasAcceleratedCRC32C() {
 #endif
 }
 
+||||||| 77cfbfd250a690978a3b81d364054039467ed549... crc32: move helper functions out of port_posix_sse.cc
+bool HasAcceleratedCRC32C() {
+#if (__x86_64__ || __i386__) && defined(__GNUC__)
+  unsigned int eax, ebx, ecx, edx;
+  __get_cpuid(1, &eax, &ebx, &ecx, &edx);
+  return (ecx & (1 << 20)) != 0;
+#else
+  return false;
+#endif
+}
+
+=======
+>>>>>>> parent of 77cfbfd250a690978a3b81d364054039467ed549... crc32: move helper functions out of port_posix_sse.cc
 }  // namespace port
 }  // namespace leveldb
